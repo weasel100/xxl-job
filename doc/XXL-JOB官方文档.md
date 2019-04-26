@@ -310,7 +310,7 @@ XXL-JOB是一个轻量级分布式任务调度平台，其核心设计目标是�
 
 "调度数据库初始化SQL脚本" 位置为:
 
-    /xxl-job/doc/db/tables_xxl_job.sql
+    /xxl-job/doc/db/create_tables.sql
 
 调度中心支持集群部署，集群情况下各节点务必连接同一个mysql实例;
 
@@ -765,14 +765,14 @@ try{
 ### 5.2 “调度数据库”配置
 XXL-JOB调度模块基于Quartz集群实现，其“调度数据库”是在Quartz的11张集群mysql表基础上扩展而成。
 
-XXL-JOB首先定制了Quartz原生表结构前缀（XXL_JOB_QRTZ_）。
+XXL-JOB首先定制了Quartz原生表结构前缀（JOB_QRTZ_）。
 
 然后，在此基础上新增了几张张扩展表，如下：
-    - XXL_JOB_QRTZ_TRIGGER_GROUP：执行器信息表，维护任务执行器信息；
-    - XXL_JOB_QRTZ_TRIGGER_REGISTRY：执行器注册表，维护在线的执行器和调度中心机器地址信息；
-    - XXL_JOB_QRTZ_TRIGGER_INFO：调度扩展信息表： 用于保存XXL-JOB调度任务的扩展信息，如任务分组、任务名、机器地址、执行器、执行入参和报警邮件等等；
-    - XXL_JOB_QRTZ_TRIGGER_LOG：调度日志表： 用于保存XXL-JOB任务调度的历史信息，如调度结果、执行结果、调度入参、调度机器和执行器等等；
-    - XXL_JOB_QRTZ_TRIGGER_LOGGLUE：任务GLUE日志：用于保存GLUE更新历史，用于支持GLUE的版本回溯功能；
+    - JOB_QRTZ_TRIGGER_GROUP：执行器信息表，维护任务执行器信息；
+    - JOB_QRTZ_TRIGGER_REGISTRY：执行器注册表，维护在线的执行器和调度中心机器地址信息；
+    - JOB_QRTZ_TRIGGER_INFO：调度扩展信息表： 用于保存XXL-JOB调度任务的扩展信息，如任务分组、任务名、机器地址、执行器、执行入参和报警邮件等等；
+    - JOB_QRTZ_TRIGGER_LOG：调度日志表： 用于保存XXL-JOB任务调度的历史信息，如调度结果、执行结果、调度入参、调度机器和执行器等等；
+    - JOB_QRTZ_TRIGGER_LOGGLUE：任务GLUE日志：用于保存GLUE更新历史，用于支持GLUE的版本回溯功能；
 
 因此，XXL-JOB调度数据库共计用于16张数据库表。
 
@@ -817,7 +817,7 @@ XXL-JOB弥补了quartz的上述不足之处。
 
 ```
 # for cluster
-org.quartz.jobStore.tablePrefix = XXL_JOB_QRTZ_
+org.quartz.jobStore.tablePrefix = JOB_QRTZ_
 org.quartz.scheduler.instanceId: AUTO
 org.quartz.jobStore.class: org.quartz.impl.jdbcjobstore.JobStoreTX
 org.quartz.jobStore.isClustered: true
@@ -975,7 +975,7 @@ XXL-JOB会为每次调度请求生成一个单独的日志文件，需要通过 
 自v1.5版本之后, 任务取消了"任务执行机器"属性, 改为通过任务注册和自动发现的方式, 动态获取远程执行器地址并执行。
 
     AppName: 每个执行器机器集群的唯一标示, 任务注册以 "执行器" 为最小粒度进行注册; 每个任务通过其绑定的执行器可感知对应的执行器机器列表;
-    注册表: 见"XXL_JOB_QRTZ_TRIGGER_REGISTRY"表, "执行器" 在进行任务注册时将会周期性维护一条注册记录，即机器地址和AppName的绑定关系; "调度中心" 从而可以动态感知每个AppName在线的机器列表;
+    注册表: 见"JOB_QRTZ_TRIGGER_REGISTRY"表, "执行器" 在进行任务注册时将会周期性维护一条注册记录，即机器地址和AppName的绑定关系; "调度中心" 从而可以动态感知每个AppName在线的机器列表;
     执行器注册: 任务注册Beat周期默认30s; 执行器以一倍Beat进行执行器注册, 调度中心以一倍Beat进行动态任务发现; 注册信息的失效时间被三倍Beat; 
     执行器注册摘除：执行器销毁时，将会主动上报调度中心并摘除对应的执行器机器信息，提高心跳注册的实时性；
     

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -73,13 +72,13 @@ public class JobLogController {
 			int jobGroup, int jobId, int logStatus, String filterTime) {
 		
 		// parse param
-		Date triggerTimeStart = null;
-		Date triggerTimeEnd = null;
+		String triggerTimeStart = null;
+		String triggerTimeEnd = null;
 		if (filterTime!=null && filterTime.trim().length()>0) {
 			String[] temp = filterTime.split(" - ");
 			if (temp!=null && temp.length == 2) {
-				triggerTimeStart = DateUtil.parseDateTime(temp[0]);
-				triggerTimeEnd = DateUtil.parseDateTime(temp[1]);
+				triggerTimeStart = temp[0];
+				triggerTimeEnd = temp[1];
 			}
 		}
 		
@@ -173,16 +172,16 @@ public class JobLogController {
 	@ResponseBody
 	public ReturnT<String> clearLog(int jobGroup, int jobId, int type){
 
-		Date clearBeforeTime = null;
+		String clearBeforeTime = null;
 		int clearBeforeNum = 0;
 		if (type == 1) {
-			clearBeforeTime = DateUtil.addMonths(new Date(), -1);	// 清理一个月之前日志数据
+			clearBeforeTime =DateUtil.formatDate( DateUtil.addMonths(new Date(), -1));	// 清理一个月之前日志数据
 		} else if (type == 2) {
-			clearBeforeTime = DateUtil.addMonths(new Date(), -3);	// 清理三个月之前日志数据
+			clearBeforeTime = DateUtil.formatDate(DateUtil.addMonths(new Date(), -3));	// 清理三个月之前日志数据
 		} else if (type == 3) {
-			clearBeforeTime = DateUtil.addMonths(new Date(), -6);	// 清理六个月之前日志数据
+			clearBeforeTime = DateUtil.formatDate(DateUtil.addMonths(new Date(), -6));	// 清理六个月之前日志数据
 		} else if (type == 4) {
-			clearBeforeTime = DateUtil.addYears(new Date(), -1);	// 清理一年之前日志数据
+			clearBeforeTime =DateUtil.formatDate( DateUtil.addYears(new Date(), -1));	// 清理一年之前日志数据
 		} else if (type == 5) {
 			clearBeforeNum = 1000;		// 清理一千条以前日志数据
 		} else if (type == 6) {

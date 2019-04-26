@@ -16,9 +16,9 @@ import java.net.URL;
  *
  * @author xuxueli 2018-09-16 03:48:34
  */
-@JobHandler(value = "httpJobHandler")
+@JobHandler(value = "httpGetJobHandler")
 @Component
-public class HttpJobHandler extends IJobHandler {
+public class HttpGetJobHandler extends IJobHandler {
 
     @Override
     public ReturnT<String> execute(String param) throws Exception {

@@ -20,8 +20,10 @@
             </pattern>
         </encoder>
     </appender>
-
-    <root level="info">
+    <logger name="java.sql.Connection" level="DEBUG" />
+    <logger name="java.sql.PreparedStatement" level="DEBUG" />
+    <logger name="org.apache.zookeeper" level="DEBUG" />
+    <root level="debug">
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
     </root>

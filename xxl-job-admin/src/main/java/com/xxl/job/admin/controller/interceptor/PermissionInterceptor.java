@@ -21,7 +21,7 @@ import java.math.BigInteger;
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
 
-	public static final String LOGIN_IDENTITY_KEY = "XXL_JOB_LOGIN_IDENTITY";
+	public static final String LOGIN_IDENTITY_KEY = "JOB_LOGIN_IDENTITY";
 	private static String LOGIN_IDENTITY_TOKEN;
 	public static String getLoginIdentityToken() {
 		if (LOGIN_IDENTITY_TOKEN == null) {

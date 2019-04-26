@@ -220,7 +220,7 @@ Please download project source code，get db scripts and execute, it will genera
 
 The relative path of db scripts is as follows:
 
-    /xxl-job/doc/db/tables_xxl_job.sql
+    /xxl-job/doc/db/create_tables.sql
 
 The xxl-job-admin can be deployed as a cluster,all nodes of the cluster must connect to the same mysql instance.
 
@@ -599,16 +599,16 @@ Click the delete button on the right side of the task,the task will be deteted.
 ### 5.2 configure database
 XXL-JOB schedule module is implemented based on Quartz cluster,it’s “database” is extended based on Quartz’s 11 mysql tables.
 
-XXL-JOB custom Quartz table structure prefix(XXL_JOB_QRTZ_).
+XXL-JOB custom Quartz table structure prefix(JOB_QRTZ_).
 
 ![输入图片说明](https://raw.githubusercontent.com/xuxueli/xxl-job/master/doc/images/img_bNwm.png "在这里输入图片标题")
 
 The added tables as shown below:
-    - XXL_JOB_QRTZ_TRIGGER_GROUP:executor basic table, maintain the info about the executor;
-    - XXL_JOB_QRTZ_TRIGGER_REGISTRY:executor register table, maintain addressed of online executors and schedule center machines.
-    - XXL_JOB_QRTZ_TRIGGER_INFO:schedule extend table,it is used to save XXL-JOB schedule extended info,such as task group,task name,machine address,executor,input params of task and alarm email and so on.
-    - XXL_JOB_QRTZ_TRIGGER_LOG:schedule log table,it is used to save XXL-JOB task’s histry schedule info,such as :schedule result,execution result,input param of scheduled task,scheduled machine and executor and so on.
-    - XXL_JOB_QRTZ_TRIGGER_LOGGLUE:schedule log table,it is used to save XXL-JOB task’s histry schedule info,such as :schedule result,execution result,input param of scheduled task,scheduled machine and executor and so on.
+    - JOB_QRTZ_TRIGGER_GROUP:executor basic table, maintain the info about the executor;
+    - JOB_QRTZ_TRIGGER_REGISTRY:executor register table, maintain addressed of online executors and schedule center machines.
+    - JOB_QRTZ_TRIGGER_INFO:schedule extend table,it is used to save XXL-JOB schedule extended info,such as task group,task name,machine address,executor,input params of task and alarm email and so on.
+    - JOB_QRTZ_TRIGGER_LOG:schedule log table,it is used to save XXL-JOB task’s histry schedule info,such as :schedule result,execution result,input param of scheduled task,scheduled machine and executor and so on.
+    - JOB_QRTZ_TRIGGER_LOGGLUE:schedule log table,it is used to save XXL-JOB task’s histry schedule info,such as :schedule result,execution result,input param of scheduled task,scheduled machine and executor and so on.
 
 So XXL-JOB database total has 16 tables.
 
@@ -650,7 +650,7 @@ It is based on Quartz cluster，databse use Mysql；while QUARTZ task schedule i
 
 ```
 # for cluster
-org.quartz.jobStore.tablePrefix = XXL_JOB_QRTZ_
+org.quartz.jobStore.tablePrefix = JOB_QRTZ_
 org.quartz.scheduler.instanceId: AUTO
 org.quartz.jobStore.class: org.quartz.impl.jdbcjobstore.JobStoreTX
 org.quartz.jobStore.isClustered: true
@@ -797,7 +797,7 @@ Task executor machine property has been canceled from v1.5, instead of task regi
 
     AppName: unique identify of executor cluster,  executor is minimal unite of task register, every task recognize machine addresses under the executor on which it was binded.
     Beat: heartbeat cycle of task register, default is 15s, and the time executor usedto register is twice the time, the time used to auto task discover is twice the beat time, the invalid time of register is twice the Beat time.
-    registry table: see XXL_JOB_QRTZ_TRIGGER_REGISTRY table, it will maintain a register record periodically while task register, such as the bind relationship between machine address and AppName, so that schedule center can recognize machine list by AppName dynamicly.
+    registry table: see JOB_QRTZ_TRIGGER_REGISTRY table, it will maintain a register record periodically while task register, such as the bind relationship between machine address and AppName, so that schedule center can recognize machine list by AppName dynamicly.
 
 To ensure system lightweight and reduce learning costs, it did not use Zookeeper as register center, Use DB as register center to do task registration.
 

@@ -332,7 +332,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 	private static final String TRIGGER_CHART_DATA_CACHE = "trigger_chart_data_cache";
 	@Override
-	public ReturnT<Map<String, Object>> chartInfo(Date startDate, Date endDate) {
+	public ReturnT<Map<String, Object>> chartInfo(String startDate, String endDate) {
 		/*// get cache
 		String cacheKey = TRIGGER_CHART_DATA_CACHE + "_" + startDate.getTime() + "_" + endDate.getTime();
 		Map<String, Object> chartInfo = (Map<String, Object>) LocalCacheUtil.get(cacheKey);

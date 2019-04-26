@@ -54,41 +54,42 @@
 	</sql>
 
 	<select id="pageList" parameterType="java.util.HashMap" resultMap="XxlJobInfo">
-		SELECT <include refid="Base_Column_List" />
-		FROM XXL_JOB_QRTZ_TRIGGER_INFO AS t
+		select  <include refid="Base_Column_List" /> from (SELECT *
+		FROM JOB_QRTZ_TRIGGER_INFO  t
 		<trim prefix="WHERE" prefixOverrides="AND | OR" >
 			<if test="jobGroup gt 0">
 				AND t.job_group = #{jobGroup}
 			</if>
-			<if test="jobDesc != null and jobDesc != ''">
+			<if test="jobDesc is not null and jobDesc != ''">
 				AND t.job_desc like CONCAT(CONCAT('%', #{jobDesc}), '%')
 			</if>
-			<if test="executorHandler != null and executorHandler != ''">
+			<if test="executorHandler is not null and executorHandler != ''">
 				AND t.executor_handler like CONCAT(CONCAT('%', #{executorHandler}), '%')
 			</if>
 		</trim>
-		ORDER BY id DESC
-		LIMIT #{offset}, #{pagesize}
+		ORDER BY id DESC)
+		where rownum between #{offset} and #{pagesize}
 	</select>
 
 	<select id="pageListCount" parameterType="java.util.HashMap" resultType="int">
 		SELECT count(1)
-		FROM XXL_JOB_QRTZ_TRIGGER_INFO AS t
+		FROM JOB_QRTZ_TRIGGER_INFO  t
 		<trim prefix="WHERE" prefixOverrides="AND | OR" >
 			<if test="jobGroup gt 0">
 				AND t.job_group = #{jobGroup}
 			</if>
-			<if test="jobDesc != null and jobDesc != ''">
+			<if test="jobDesc is not null and jobDesc != ''">
 				AND t.job_desc like CONCAT(CONCAT('%', #{jobDesc}), '%')
 			</if>
-			<if test="executorHandler != null and executorHandler != ''">
+			<if test="executorHandler is not null and executorHandler != ''">
 				AND t.executor_handler like CONCAT(CONCAT('%', #{executorHandler}), '%')
 			</if>
 		</trim>
 	</select>
 
 	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobInfo" useGeneratedKeys="true" keyProperty="id" >
-		INSERT INTO XXL_JOB_QRTZ_TRIGGER_INFO (
+		INSERT INTO JOB_QRTZ_TRIGGER_INFO (
+		    id,
 			job_group,
 			job_cron,
 			job_desc,
@@ -108,11 +109,12 @@
 			glue_updatetime,
 			child_jobid
 		) VALUES (
+		    JOB_QRTZ_TRIGGER_INFO_ID.nextval,
 			#{jobGroup},
 			#{jobCron},
 			#{jobDesc},
-			NOW(),
-			NOW(),
+			sysdate,
+		    sysdate,
 			#{author},
 			#{alarmEmail},
 			#{executorRouteStrategy},
@@ -124,9 +126,9 @@
 			#{glueType},
 			#{glueSource},
 			#{glueRemark},
-			NOW(),
+		    sysdate,
 			#{childJobId}
-		);
+		)
 		<!--<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID()
 			/*SELECT @@IDENTITY AS id*/
@@ -135,17 +137,17 @@
 
 	<select id="loadById" parameterType="java.util.HashMap" resultMap="XxlJobInfo">
 		SELECT <include refid="Base_Column_List" />
-		FROM XXL_JOB_QRTZ_TRIGGER_INFO AS t
+		FROM JOB_QRTZ_TRIGGER_INFO  t
 		WHERE t.id = #{id}
 	</select>
 
 	<update id="update" parameterType="com.xxl.job.admin.core.model.XxlJobInfo" >
-		UPDATE XXL_JOB_QRTZ_TRIGGER_INFO
+		UPDATE JOB_QRTZ_TRIGGER_INFO
 		SET
 			job_group = #{jobGroup},
 			job_cron = #{jobCron},
 			job_desc = #{jobDesc},
-			update_time = NOW(),
+			update_time = sysdate,
 			author = #{author},
 			alarm_email = #{alarmEmail},
 			executor_route_strategy = #{executorRouteStrategy},
@@ -164,19 +166,19 @@
 
 	<delete id="delete" parameterType="java.util.HashMap">
 		DELETE
-		FROM XXL_JOB_QRTZ_TRIGGER_INFO
+		FROM JOB_QRTZ_TRIGGER_INFO
 		WHERE id = #{id}
 	</delete>
 
 	<select id="getJobsByGroup" parameterType="java.util.HashMap" resultMap="XxlJobInfo">
 		SELECT <include refid="Base_Column_List" />
-		FROM XXL_JOB_QRTZ_TRIGGER_INFO AS t
+		FROM JOB_QRTZ_TRIGGER_INFO  t
 		WHERE t.job_group = #{jobGroup}
 	</select>
 
 	<select id="findAllCount" resultType="int">
 		SELECT count(1)
-		FROM XXL_JOB_QRTZ_TRIGGER_INFO
+		FROM JOB_QRTZ_TRIGGER_INFO
 	</select>
 
 </mapper>

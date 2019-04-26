@@ -20,15 +20,15 @@ public interface XxlJobLogDao {
 									@Param("pagesize") int pagesize,
 									@Param("jobGroup") int jobGroup,
 									@Param("jobId") int jobId,
-									@Param("triggerTimeStart") Date triggerTimeStart,
-									@Param("triggerTimeEnd") Date triggerTimeEnd,
+									@Param("triggerTimeStart") String triggerTimeStart,
+									@Param("triggerTimeEnd") String triggerTimeEnd,
 									@Param("logStatus") int logStatus);
 	public int pageListCount(@Param("offset") int offset,
 							 @Param("pagesize") int pagesize,
 							 @Param("jobGroup") int jobGroup,
 							 @Param("jobId") int jobId,
-							 @Param("triggerTimeStart") Date triggerTimeStart,
-							 @Param("triggerTimeEnd") Date triggerTimeEnd,
+							 @Param("triggerTimeStart") String triggerTimeStart,
+							 @Param("triggerTimeEnd") String triggerTimeEnd,
 							 @Param("logStatus") int logStatus);
 	
 	public XxlJobLog load(@Param("id") int id);
@@ -43,12 +43,12 @@ public interface XxlJobLogDao {
 
 	public int triggerCountByHandleCode(@Param("handleCode") int handleCode);
 
-	public List<Map<String, Object>> triggerCountByDay(@Param("from") Date from,
-													   @Param("to") Date to);
+	public List<Map<String, Object>> triggerCountByDay(@Param("from") String from,
+													   @Param("to") String to);
 
 	public int clearLog(@Param("jobGroup") int jobGroup,
 						@Param("jobId") int jobId,
-						@Param("clearBeforeTime") Date clearBeforeTime,
+						@Param("clearBeforeTime") String clearBeforeTime,
 						@Param("clearBeforeNum") int clearBeforeNum);
 
 	public List<Integer> findFailJobLogIds(@Param("pagesize") int pagesize);
