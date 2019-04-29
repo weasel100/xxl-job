@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xxl.job.admin.dao.XxlJobLogGlueDao">
-	
-	<resultMap id="XxlJobLogGlue" type="com.xxl.job.admin.core.model.XxlJobLogGlue" >
-		<result column="id" property="id" />
-	    <result column="job_id" property="jobId" />
-		<result column="glue_type" property="glueType" />
-	    <result column="glue_source" property="glueSource" />
-	    <result column="glue_remark" property="glueRemark" />
-	    <result column="add_time" property="addTime" />
-	    <result column="update_time" property="updateTime" />
-	</resultMap>
 
-	<sql id="Base_Column_List">
+    <resultMap id="XxlJobLogGlue" type="com.xxl.job.admin.core.model.XxlJobLogGlue">
+        <result column="id" property="id"/>
+        <result column="job_id" property="jobId"/>
+        <result column="glue_type" property="glueType"/>
+        <result column="glue_source" property="glueSource"/>
+        <result column="glue_remark" property="glueRemark"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
 		t.id,
 		t.job_id,
 		t.glue_type,
@@ -22,52 +22,50 @@
 		t.add_time,
 		t.update_time
 	</sql>
-	
-	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobLogGlue" useGeneratedKeys="true" keyProperty="id" >
+
+    <insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobLogGlue" useGeneratedKeys="true"
+            keyProperty="id">
 		INSERT INTO JOB_QRTZ_TRIGGER_LOGGLUE (
 		    id,
 			job_id,
 			glue_type,
 			glue_source,
 			glue_remark,
-			add_time, 
+			add_time,
 			update_time
 		) VALUES (
 		    JOB_QRTZ_TRIGGER_LOGGLUE_ID.nextval,
-			#{jobId},
-			#{glueType},
-			#{glueSource},
-			#{glueRemark},
+			#{jobId,jdbcType=NUMERIC},
+			#{glueType,jdbcType=VARCHAR},
+			#{glueSource,jdbcType=VARCHAR},
+			#{glueRemark,jdbcType=VARCHAR},
 			sysdate,
 		    sysdate
 		)
-		<!--<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-			SELECT LAST_INSERT_ID() 
-		</selectKey>-->
 	</insert>
-	
-	<select id="findByJobId" parameterType="java.lang.Integer" resultMap="XxlJobLogGlue">
-		SELECT <include refid="Base_Column_List" />
-		FROM JOB_QRTZ_TRIGGER_LOGGLUE  t
-		WHERE t.job_id = #{jobId}
-		ORDER BY id DESC
-	</select>
-	
-	<delete id="removeOld" >
+
+    <select id="findByJobId" parameterType="java.lang.Integer" resultMap="XxlJobLogGlue">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM JOB_QRTZ_TRIGGER_LOGGLUE t
+        WHERE t.job_id = #{jobId,jdbcType=NUMERIC}
+        ORDER BY id DESC
+    </select>
+
+    <delete id="removeOld">
 		DELETE FROM JOB_QRTZ_TRIGGER_LOGGLUE
-		WHERE id NOT in(
-			select id,rownum from SELECT id FROM(
-				SELECT id FROM JOB_QRTZ_TRIGGER_LOGGLUE
-				WHERE job_id = #{jobId}
-				)
-		    where rownum between  0 and  #{limit}
-			) t1
-		) AND job_id = #{jobId}
+		WHERE id NOT IN (SELECT id
+		                 FROM (SELECT id, ROWNUM
+		                       FROM (  SELECT id
+		                               FROM JOB_QRTZ_TRIGGER_LOGGLUE
+		                               WHERE job_id =  #{jobId,jdbcType=NUMERIC}
+		                       ORDER BY id DESC)
+		                 WHERE ROWNUM &lt;= #{limit}))
 	</delete>
-	
-	<delete id="deleteByJobId" parameterType="java.lang.Integer" >
+
+    <delete id="deleteByJobId" parameterType="java.lang.Integer">
 		DELETE FROM JOB_QRTZ_TRIGGER_LOGGLUE
-		WHERE job_id = #{jobId}
+		WHERE job_id = #{jobId,jdbcType=NUMERIC}
 	</delete>
-	
+
 </mapper>

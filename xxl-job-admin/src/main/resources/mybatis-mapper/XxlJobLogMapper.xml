@@ -137,13 +137,13 @@
 		UPDATE JOB_QRTZ_TRIGGER_LOG
 		SET
 			trigger_time= #{triggerTime},
-			trigger_code= #{triggerCode},
-			trigger_msg= #{triggerMsg},
-			executor_address= #{executorAddress},
-			executor_handler=#{executorHandler},
-			executor_param= #{executorParam},
-			executor_sharding_param= #{executorShardingParam},
-			executor_fail_retry_count= #{executorFailRetryCount}
+			trigger_code= #{triggerCode,jdbcType=NUMERIC},
+			trigger_msg= #{triggerMsg,jdbcType=VARCHAR},
+			executor_address= #{executorAddress,jdbcType=VARCHAR},
+			executor_handler=#{executorHandler,jdbcType=VARCHAR},
+			executor_param= #{executorParam,jdbcType=VARCHAR},
+			executor_sharding_param= #{executorShardingParam,jdbcType=VARCHAR},
+			executor_fail_retry_count= #{executorFailRetryCount,jdbcType=NUMERIC}
 		WHERE id= #{id}
 	</update>
 
@@ -151,8 +151,8 @@
 		UPDATE JOB_QRTZ_TRIGGER_LOG
 		SET 
 			handle_time= #{handleTime}, 
-			handle_code= #{handleCode},
-			handle_msg= #{handleMsg} 
+			handle_code= #{handleCode,jdbcType=NUMERIC},
+			handle_msg= #{handleMsg,jdbcType=VARCHAR}
 		WHERE id= #{id}
 	</update>
 	

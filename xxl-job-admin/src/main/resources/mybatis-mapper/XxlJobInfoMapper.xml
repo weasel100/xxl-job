@@ -54,21 +54,22 @@
 	</sql>
 
 	<select id="pageList" parameterType="java.util.HashMap" resultMap="XxlJobInfo">
-		select  <include refid="Base_Column_List" /> from (SELECT *
+		select  * from (SELECT <include refid="Base_Column_List" />
 		FROM JOB_QRTZ_TRIGGER_INFO  t
 		<trim prefix="WHERE" prefixOverrides="AND | OR" >
 			<if test="jobGroup gt 0">
 				AND t.job_group = #{jobGroup}
 			</if>
-			<if test="jobDesc is not null and jobDesc != ''">
-				AND t.job_desc like CONCAT(CONCAT('%', #{jobDesc}), '%')
+			<if test="jobDesc !=null and jobDesc != ''">
+				AND t.job_desc like '%'||#{jobDesc}||'%'
 			</if>
-			<if test="executorHandler is not null and executorHandler != ''">
-				AND t.executor_handler like CONCAT(CONCAT('%', #{executorHandler}), '%')
+			<if test="executorHandler !=null and executorHandler != ''">
+				AND t.executor_handler like '%'||#{executorHandler}||'%'
 			</if>
 		</trim>
-		ORDER BY id DESC)
-		where rownum between #{offset} and #{pagesize}
+		)
+		where rownum between  #{offset} and  #{pagesize}
+		ORDER BY id DESC
 	</select>
 
 	<select id="pageListCount" parameterType="java.util.HashMap" resultType="int">
@@ -78,11 +79,11 @@
 			<if test="jobGroup gt 0">
 				AND t.job_group = #{jobGroup}
 			</if>
-			<if test="jobDesc is not null and jobDesc != ''">
-				AND t.job_desc like CONCAT(CONCAT('%', #{jobDesc}), '%')
+			<if test="jobDesc !=null and jobDesc != ''">
+				AND t.job_desc like '%'||#{jobDesc}||'%'
 			</if>
-			<if test="executorHandler is not null and executorHandler != ''">
-				AND t.executor_handler like CONCAT(CONCAT('%', #{executorHandler}), '%')
+			<if test="executorHandler !=null and executorHandler != ''">
+				AND t.executor_handler like '%'||#{executorHandler}||'%'
 			</if>
 		</trim>
 	</select>
@@ -110,13 +111,13 @@
 			child_jobid
 		) VALUES (
 		    JOB_QRTZ_TRIGGER_INFO_ID.nextval,
-			#{jobGroup},
+			#{jobGroup,jdbcType=INTEGER},
 			#{jobCron},
 			#{jobDesc},
 			sysdate,
 		    sysdate,
 			#{author},
-			#{alarmEmail},
+			#{alarmEmail,jdbcType=VARCHAR},
 			#{executorRouteStrategy},
 			#{executorHandler},
 			#{executorParam},
@@ -129,10 +130,6 @@
 		    sysdate,
 			#{childJobId}
 		)
-		<!--<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-			SELECT LAST_INSERT_ID()
-			/*SELECT @@IDENTITY AS id*/
-		</selectKey>-->
 	</insert>
 
 	<select id="loadById" parameterType="java.util.HashMap" resultMap="XxlJobInfo">
@@ -144,24 +141,24 @@
 	<update id="update" parameterType="com.xxl.job.admin.core.model.XxlJobInfo" >
 		UPDATE JOB_QRTZ_TRIGGER_INFO
 		SET
-			job_group = #{jobGroup},
+			job_group = #{jobGroup,jdbcType=NUMERIC},
 			job_cron = #{jobCron},
 			job_desc = #{jobDesc},
 			update_time = sysdate,
 			author = #{author},
-			alarm_email = #{alarmEmail},
-			executor_route_strategy = #{executorRouteStrategy},
-			executor_handler = #{executorHandler},
-			executor_param = #{executorParam},
-			executor_block_strategy = #{executorBlockStrategy},
+			alarm_email = #{alarmEmail,jdbcType=VARCHAR},
+			executor_route_strategy = #{executorRouteStrategy,jdbcType=VARCHAR},
+			executor_handler = #{executorHandler,jdbcType=VARCHAR},
+			executor_param = #{executorParam,jdbcType=VARCHAR},
+			executor_block_strategy = #{executorBlockStrategy,jdbcType=VARCHAR},
 			executor_timeout = ${executorTimeout},
 			executor_fail_retry_count = ${executorFailRetryCount},
-			glue_type = #{glueType},
-			glue_source = #{glueSource},
-			glue_remark = #{glueRemark},
+			glue_type = #{glueType,jdbcType=VARCHAR},
+			glue_source = #{glueSource,jdbcType=VARCHAR},
+			glue_remark = #{glueRemark,jdbcType=VARCHAR},
 			glue_updatetime = #{glueUpdatetime},
-			child_jobid = #{childJobId}
-		WHERE id = #{id}
+			child_jobid = #{childJobId,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=NUMERIC}
 	</update>
 
 	<delete id="delete" parameterType="java.util.HashMap">
