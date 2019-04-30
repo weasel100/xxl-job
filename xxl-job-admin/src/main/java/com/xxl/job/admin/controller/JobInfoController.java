@@ -57,7 +57,7 @@ public class JobInfoController {
                                         @RequestParam(required = false, defaultValue = "1") int jobGroup,
                                         String jobDesc, String executorHandler, String filterTime) {
 
-        return xxlJobService.pageList(start, length, jobGroup, jobDesc, executorHandler, filterTime);
+        return xxlJobService.pageList(start+1, start+length, jobGroup, jobDesc, executorHandler, filterTime);
     }
 
     @RequestMapping("/add")

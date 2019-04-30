@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class XxlJobGroup {
 
-    private int id;
+    private Integer id=0;
     private String appName;
     private String title;
-    private int order;
-    private int addressType;        // 执行器地址类型：0=自动注册、1=手动录入
+    private Integer order=0;
+    private Integer addressType=0;        // 执行器地址类型：0=自动注册、1=手动录入
     private String addressList;     // 执行器地址列表，多地址逗号分隔(手动录入)
 
     // registry list
@@ -25,11 +25,24 @@ public class XxlJobGroup {
         return registryList;
     }
 
-    public int getId() {
+    @Override
+    public String toString() {
+        return "XxlJobGroup{" +
+                "id=" + id +
+                ", appName='" + appName + '\'' +
+                ", title='" + title + '\'' +
+                ", order=" + order +
+                ", addressType=" + addressType +
+                ", addressList='" + addressList + '\'' +
+                ", registryList=" + registryList +
+                '}';
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -49,19 +62,19 @@ public class XxlJobGroup {
         this.title = title;
     }
 
-    public int getOrder() {
+    public Integer getOrder() {
         return order;
     }
 
-    public void setOrder(int order) {
+    public void setOrder(Integer order) {
         this.order = order;
     }
 
-    public int getAddressType() {
+    public Integer getAddressType() {
         return addressType;
     }
 
-    public void setAddressType(int addressType) {
+    public void setAddressType(Integer addressType) {
         this.addressType = addressType;
     }
 
@@ -73,4 +86,7 @@ public class XxlJobGroup {
         this.addressList = addressList;
     }
 
+    public void setRegistryList(List<String> registryList) {
+        this.registryList = registryList;
+    }
 }

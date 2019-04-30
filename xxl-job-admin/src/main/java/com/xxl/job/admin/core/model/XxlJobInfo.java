@@ -9,15 +9,15 @@ import java.util.Date;
  */
 public class XxlJobInfo {
 	
-	private int id;				// 主键ID	    (JobKey.name)
-	
-	private int jobGroup;		// 执行器主键ID	(JobKey.group)
+	private Integer id=0;				// 主键ID	    (JobKey.name)
+
+	private Integer jobGroup=0;		// 执行器主键ID	(JobKey.group)
 	private String jobCron;		// 任务执行CRON表达式 【base on quartz】
 	private String jobDesc;
-	
-	private Date addTime;
-	private Date updateTime;
-	
+
+	private Date addTime=new Date();
+	private Date updateTime=new Date();
+
 	private String author;		// 负责人
 	private String alarmEmail;	// 报警邮件
 
@@ -25,33 +25,58 @@ public class XxlJobInfo {
 	private String executorHandler;		    // 执行器，任务Handler名称
 	private String executorParam;		    // 执行器，任务参数
 	private String executorBlockStrategy;	// 阻塞处理策略
-	private int executorTimeout;     		// 任务执行超时时间，单位秒
-	private int executorFailRetryCount;		// 失败重试次数
-	
+	private Integer executorTimeout=0;     		// 任务执行超时时间，单位秒
+	private Integer executorFailRetryCount=0;		// 失败重试次数
+
 	private String glueType;		// GLUE类型	#com.xxl.job.core.glue.GlueTypeEnum
 	private String glueSource;		// GLUE源代码
 	private String glueRemark;		// GLUE备注
-	private Date glueUpdatetime;	// GLUE更新时间
+	private Date glueUpdatetime=new Date();	// GLUE更新时间
 
 	private String childJobId;		// 子任务ID，多个逗号分隔
-	
+
 	// copy from quartz
-	private String jobStatus;		// 任务状态 【base on quartz】
+	private String jobStatus="0";		// 任务状态 【base on quartz】
 
+	@Override
+	public String toString() {
+		return "XxlJobInfo{" +
+				"id=" + id +
+				", jobGroup=" + jobGroup +
+				", jobCron='" + jobCron + '\'' +
+				", jobDesc='" + jobDesc + '\'' +
+				", addTime=" + addTime +
+				", updateTime=" + updateTime +
+				", author='" + author + '\'' +
+				", alarmEmail='" + alarmEmail + '\'' +
+				", executorRouteStrategy='" + executorRouteStrategy + '\'' +
+				", executorHandler='" + executorHandler + '\'' +
+				", executorParam='" + executorParam + '\'' +
+				", executorBlockStrategy='" + executorBlockStrategy + '\'' +
+				", executorTimeout=" + executorTimeout +
+				", executorFailRetryCount=" + executorFailRetryCount +
+				", glueType='" + glueType + '\'' +
+				", glueSource='" + glueSource + '\'' +
+				", glueRemark='" + glueRemark + '\'' +
+				", glueUpdatetime=" + glueUpdatetime +
+				", childJobId='" + childJobId + '\'' +
+				", jobStatus='" + jobStatus + '\'' +
+				'}';
+	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getJobGroup() {
+	public Integer getJobGroup() {
 		return jobGroup;
 	}
 
-	public void setJobGroup(int jobGroup) {
+	public void setJobGroup(Integer jobGroup) {
 		this.jobGroup = jobGroup;
 	}
 
@@ -135,19 +160,19 @@ public class XxlJobInfo {
 		this.executorBlockStrategy = executorBlockStrategy;
 	}
 
-	public int getExecutorTimeout() {
+	public Integer getExecutorTimeout() {
 		return executorTimeout;
 	}
 
-	public void setExecutorTimeout(int executorTimeout) {
+	public void setExecutorTimeout(Integer executorTimeout) {
 		this.executorTimeout = executorTimeout;
 	}
 
-	public int getExecutorFailRetryCount() {
+	public Integer getExecutorFailRetryCount() {
 		return executorFailRetryCount;
 	}
 
-	public void setExecutorFailRetryCount(int executorFailRetryCount) {
+	public void setExecutorFailRetryCount(Integer executorFailRetryCount) {
 		this.executorFailRetryCount = executorFailRetryCount;
 	}
 
@@ -198,5 +223,4 @@ public class XxlJobInfo {
 	public void setJobStatus(String jobStatus) {
 		this.jobStatus = jobStatus;
 	}
-
 }

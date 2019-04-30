@@ -34,7 +34,7 @@
 		ORDER BY t.orderk ASC
 	</select>
 
-	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobGroup" useGeneratedKeys="true" keyProperty="id" >
+	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobGroup"  >
 		INSERT INTO JOB_QRTZ_TRIGGER_GROUP (id, app_name, title, orderk, address_type, address_list)
 		values (JOB_QRTZ_TRIGGER_GROUP_ID.nextval, #{appName}, #{title}, #{order}, #{addressType}, #{addressList,jdbcType=VARCHAR})
 	</insert>

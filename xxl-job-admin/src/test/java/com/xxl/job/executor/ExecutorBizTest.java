@@ -22,8 +22,8 @@ public class ExecutorBizTest {
     public static void main(String[] args) throws Exception {
 
         // param
-        String jobHandler = "demoJobHandler";
-        String params = "";
+        String jobHandler = "httpGetJobHandler";
+        String params = "http://www.google.com";
 
         runTest(jobHandler, params);
     }

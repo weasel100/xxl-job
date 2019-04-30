@@ -23,8 +23,7 @@
 		t.update_time
 	</sql>
 
-    <insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobLogGlue" useGeneratedKeys="true"
-            keyProperty="id">
+    <insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobLogGlue">
 		INSERT INTO JOB_QRTZ_TRIGGER_LOGGLUE (
 		    id,
 			job_id,
@@ -35,7 +34,7 @@
 			update_time
 		) VALUES (
 		    JOB_QRTZ_TRIGGER_LOGGLUE_ID.nextval,
-			#{jobId,jdbcType=NUMERIC},
+			#{jobId,jdbcType=INTEGER},
 			#{glueType,jdbcType=VARCHAR},
 			#{glueSource,jdbcType=VARCHAR},
 			#{glueRemark,jdbcType=VARCHAR},
@@ -48,7 +47,7 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM JOB_QRTZ_TRIGGER_LOGGLUE t
-        WHERE t.job_id = #{jobId,jdbcType=NUMERIC}
+        WHERE t.job_id = #{jobId,jdbcType=INTEGER}
         ORDER BY id DESC
     </select>
 
@@ -58,14 +57,14 @@
 		                 FROM (SELECT id, ROWNUM
 		                       FROM (  SELECT id
 		                               FROM JOB_QRTZ_TRIGGER_LOGGLUE
-		                               WHERE job_id =  #{jobId,jdbcType=NUMERIC}
+		                               WHERE job_id =  #{jobId,jdbcType=INTEGER}
 		                       ORDER BY id DESC)
 		                 WHERE ROWNUM &lt;= #{limit}))
 	</delete>
 
     <delete id="deleteByJobId" parameterType="java.lang.Integer">
 		DELETE FROM JOB_QRTZ_TRIGGER_LOGGLUE
-		WHERE job_id = #{jobId,jdbcType=NUMERIC}
+		WHERE job_id = #{jobId,jdbcType=INTEGER}
 	</delete>
 
 </mapper>

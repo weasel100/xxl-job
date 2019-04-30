@@ -38,15 +38,15 @@ CREATE TABLE JOB_QRTZ_TRIGGERS
    JOB_NAME         VARCHAR2 (200 CHAR) NOT NULL,
    JOB_GROUP        VARCHAR2 (200 CHAR) NOT NULL,
    DESCRIPTION      VARCHAR2 (250 CHAR) NULL,
-   NEXT_FIRE_TIME   NUMBER (13) NULL,
-   PREV_FIRE_TIME   NUMBER (13) NULL,
+   NEXT_FIRE_TIME   INTEGER NULL,
+   PREV_FIRE_TIME   INTEGER NULL,
    PRIORITY         INTEGER NULL,
    TRIGGER_STATE    VARCHAR2 (16 CHAR) NOT NULL,
    TRIGGER_TYPE     VARCHAR2 (8 CHAR) NOT NULL,
-   START_TIME       NUMBER (13) NOT NULL,
-   END_TIME         NUMBER (13) NULL,
+   START_TIME       INTEGER NOT NULL,
+   END_TIME         INTEGER NULL,
    CALENDAR_NAME    VARCHAR2 (200 CHAR) NULL,
-   MISFIRE_INSTR    NUMBER (2) NULL,
+   MISFIRE_INSTR    INTEGER NULL,
    JOB_DATA         BLOB NULL,
    PRIMARY KEY (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP),
    FOREIGN KEY (SCHED_NAME, JOB_NAME, JOB_GROUP) REFERENCES JOB_QRTZ_JOB_DETAILS (SCHED_NAME, JOB_NAME, JOB_GROUP)
@@ -57,9 +57,9 @@ CREATE TABLE JOB_QRTZ_SIMPLE_TRIGGERS
    SCHED_NAME        VARCHAR2 (120 CHAR) NOT NULL,
    TRIGGER_NAME      VARCHAR2 (200 CHAR) NOT NULL,
    TRIGGER_GROUP     VARCHAR2 (200 CHAR) NOT NULL,
-   REPEAT_COUNT      NUMBER (7) NOT NULL,
-   REPEAT_INTERVAL   NUMBER (12) NOT NULL,
-   TIMES_TRIGGERED   NUMBER (10) NOT NULL,
+   REPEAT_COUNT      INTEGER NOT NULL,
+   REPEAT_INTERVAL   INTEGER NOT NULL,
+   TIMES_TRIGGERED   INTEGER NOT NULL,
    PRIMARY KEY (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP),
    FOREIGN KEY (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP) REFERENCES JOB_QRTZ_TRIGGERS (SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP)
 );
@@ -83,10 +83,10 @@ CREATE TABLE JOB_QRTZ_SIMPROP_TRIGGERS
    STR_PROP_1      VARCHAR2 (512 CHAR) NULL,
    STR_PROP_2      VARCHAR2 (512 CHAR) NULL,
    STR_PROP_3      VARCHAR2 (512 CHAR) NULL,
-   INT_PROP_1      INT NULL,
-   INT_PROP_2      INT NULL,
-   LONG_PROP_1     NUMBER NULL,
-   LONG_PROP_2     NUMBER NULL,
+   INT_PROP_1      INTEGER NULL,
+   INT_PROP_2      INTEGER NULL,
+   LONG_PROP_1     INTEGER NULL,
+   LONG_PROP_2     INTEGER NULL,
    DEC_PROP_1      NUMERIC (13, 4) NULL,
    DEC_PROP_2      NUMERIC (13, 4) NULL,
    BOOL_PROP_1     VARCHAR2 (1 CHAR) NULL,
@@ -127,8 +127,8 @@ CREATE TABLE JOB_QRTZ_FIRED_TRIGGERS
    TRIGGER_NAME        VARCHAR2 (200 CHAR) NOT NULL,
    TRIGGER_GROUP       VARCHAR2 (200 CHAR) NOT NULL,
    INSTANCE_NAME       VARCHAR2 (200 CHAR) NOT NULL,
-   FIRED_TIME          NUMBER (13) NOT NULL,
-   SCHED_TIME          NUMBER (13) NOT NULL,
+   FIRED_TIME          INTEGER NOT NULL,
+   SCHED_TIME          INTEGER NOT NULL,
    PRIORITY            INTEGER NOT NULL,
    STATE               VARCHAR2 (16 CHAR) NOT NULL,
    JOB_NAME            VARCHAR2 (200 CHAR) NULL,
@@ -142,8 +142,8 @@ CREATE TABLE JOB_QRTZ_SCHEDULER_STATE
 (
    SCHED_NAME          VARCHAR2 (120 CHAR) NOT NULL,
    INSTANCE_NAME       VARCHAR2 (200 CHAR) NOT NULL,
-   LAST_CHECKIN_TIME   NUMBER (13) NOT NULL,
-   CHECKIN_INTERVAL    NUMBER (13) NOT NULL,
+   LAST_CHECKIN_TIME   INTEGER NOT NULL,
+   CHECKIN_INTERVAL    INTEGER NOT NULL,
    PRIMARY KEY (SCHED_NAME, INSTANCE_NAME)
 );
 
@@ -158,8 +158,8 @@ CREATE TABLE JOB_QRTZ_LOCKS
 
 CREATE TABLE JOB_QRTZ_TRIGGER_INFO
 (
-   id                          NUMBER (11) NOT NULL,
-   job_group                   NUMBER (11) NOT NULL,
+   id                          INTEGER NOT NULL,
+   job_group                   INTEGER NOT NULL,
    job_cron                    VARCHAR2 (128 CHAR) NOT NULL,
    job_desc                    VARCHAR2 (255 CHAR) NOT NULL,
    add_time                    DATE DEFAULT NULL,
@@ -170,8 +170,8 @@ CREATE TABLE JOB_QRTZ_TRIGGER_INFO
    executor_handler            VARCHAR2 (255 CHAR) DEFAULT NULL,
    executor_param              VARCHAR2 (512 CHAR) DEFAULT NULL,
    executor_block_strategy     VARCHAR2 (50 CHAR) DEFAULT NULL,
-   executor_timeout            NUMBER (11) NOT NULL,
-   executor_fail_retry_count   NUMBER (11) NOT NULL,
+   executor_timeout            INTEGER NOT NULL,
+   executor_fail_retry_count   INTEGER NOT NULL,
    glue_type                   VARCHAR2 (50 CHAR) NOT NULL,
    glue_source                 CLOB,
    glue_remark                 VARCHAR2 (128 CHAR) DEFAULT NULL,
@@ -199,21 +199,21 @@ COMMENT ON COLUMN JOB_QRTZ_TRIGGER_INFO.child_jobid IS '子任务ID，多个逗�
 
 CREATE TABLE JOB_QRTZ_TRIGGER_LOG
 (
-   id                          NUMBER (11) NOT NULL,
-   job_group                   NUMBER (11) NOT NULL,
-   job_id                      NUMBER (11) NOT NULL,
+   id                          INTEGER NOT NULL,
+   job_group                   INTEGER NOT NULL,
+   job_id                      INTEGER NOT NULL,
    executor_address            VARCHAR2 (255 CHAR) DEFAULT NULL,
    executor_handler            VARCHAR2 (255 CHAR) DEFAULT NULL,
    executor_param              VARCHAR2 (512 CHAR) DEFAULT NULL,
    executor_sharding_param     VARCHAR2 (20 CHAR) DEFAULT NULL,
-   executor_fail_retry_count   NUMBER (11) NOT NULL,
+   executor_fail_retry_count   INTEGER NOT NULL,
    trigger_time                DATE DEFAULT NULL,
-   trigger_code                NUMBER (11) NOT NULL,
+   trigger_code                INTEGER NOT NULL,
    trigger_msg                 CLOB,
    handle_time                 DATE DEFAULT NULL,
-   handle_code                 NUMBER (11) NOT NULL,
+   handle_code                 INTEGER NOT NULL,
    handle_msg                  CLOB,
-   alarm_status                NUMBER (4) NOT NULL,
+   alarm_status                INTEGER NOT NULL,
    PRIMARY KEY (id)
 );
 
@@ -242,13 +242,13 @@ COMMENT ON COLUMN JOB_QRTZ_TRIGGER_LOG.alarm_status IS '告警状态：0-默认�
 
 CREATE TABLE JOB_QRTZ_TRIGGER_LOGGLUE
 (
-   id            NUMBER (11) NOT NULL,
-   job_id        NUMBER (11) NOT NULL,
+   id            INTEGER NOT NULL,
+   job_id        INTEGER NOT NULL,
    glue_type     VARCHAR2 (50 CHAR) DEFAULT NULL,
    glue_source   CLOB,
    glue_remark   VARCHAR2 (128 CHAR) NOT NULL,
-   add_time      TIMESTAMP NULL,
-   update_time   TIMESTAMP NULL ,
+   add_time      Date NULL,
+   update_time   Date NULL ,
    PRIMARY KEY (id)
 );
 
@@ -260,7 +260,7 @@ COMMENT ON COLUMN JOB_QRTZ_TRIGGER_LOGGLUE.glue_remark IS 'GLUE备注';
 
 CREATE TABLE JOB_QRTZ_TRIGGER_REGISTRY
 (
-   id               NUMBER (11) NOT NULL,
+   id               INTEGER NOT NULL,
    registry_group   VARCHAR2 (255 CHAR) NOT NULL,
    registry_key     VARCHAR2 (255 CHAR) NOT NULL,
    registry_value   VARCHAR2 (255 CHAR) NOT NULL,
@@ -271,11 +271,11 @@ alter table JOB_QRTZ_TRIGGER_REGISTRY modify update_time default sysdate;
 
 CREATE TABLE JOB_QRTZ_TRIGGER_GROUP
 (
-   id             NUMBER (11) NOT NULL,
+   id             INTEGER NOT NULL,
    app_name       VARCHAR2 (64 CHAR) NOT NULL,
    title          VARCHAR2 (12 CHAR) NOT NULL,
-   orderk        NUMBER (4) NOT NULL,
-   address_type   NUMBER (4) NOT NULL,
+   orderk         INTEGER NOT NULL,
+   address_type   INTEGER NOT NULL,
    address_list   VARCHAR2 (512),
    PRIMARY KEY (id)
 );
@@ -340,8 +340,6 @@ GLOBAL;
 
 INSERT INTO  JOB_QRTZ_TRIGGER_GROUP ( id ,  app_name ,  title , orderk ,  address_type ,  address_list )
     VALUES (1, 'xxl-job-executor-sample', '示例执行器', 1, 0, '');
-INSERT INTO JOB_QRTZ_TRIGGER_INFO (id,job_group,job_cron,job_desc,add_time,update_time,author, alarm_email,executor_route_strategy,executor_handler,executor_param,executor_block_strategy,executor_timeout,executor_fail_retry_count,glue_type,glue_source,glue_remark,glue_updatetime,child_jobid)
-    VALUES (1,1,'0 0 0 * * ? *','测试任务1',to_date('2018-11-03 22:21:31','yyyy-mm-dd HH24:mi:ss'), to_date('2018-11-03 22:21:31','yyyy-mm-dd HH24:mi:ss'),'XXL','','FIRST','demoJobHandler','','SERIAL_EXECUTION',0,0,'BEAN','','GLUE代码初始化', to_date('2018-11-03 22:21:31','yyyy-mm-dd HH24:mi:ss'), '');
 
 COMMIT;
 

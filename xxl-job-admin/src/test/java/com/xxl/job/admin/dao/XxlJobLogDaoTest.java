@@ -1,6 +1,7 @@
 package com.xxl.job.admin.dao;
 
 import com.xxl.job.admin.core.model.XxlJobLog;
+import com.xxl.job.core.util.DateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,7 +31,7 @@ public class XxlJobLogDaoTest {
         int ret1 = xxlJobLogDao.save(log);
         XxlJobLog dto = xxlJobLogDao.load(log.getId());
 
-        log.setTriggerTime(new Date());
+        log.setTriggerTime(DateUtil.formatDateTime(new Date()));
         log.setTriggerCode(1);
         log.setTriggerMsg("1");
         log.setExecutorAddress("1");
@@ -40,7 +41,7 @@ public class XxlJobLogDaoTest {
         dto = xxlJobLogDao.load(log.getId());
 
 
-        log.setHandleTime(new Date());
+        log.setHandleTime(DateUtil.formatDateTime(new Date()));
         log.setHandleCode(2);
         log.setHandleMsg("2");
         ret1 = xxlJobLogDao.updateHandleInfo(log);

@@ -11,6 +11,7 @@ import com.xxl.job.core.biz.ExecutorBiz;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.biz.model.TriggerParam;
 import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
+import com.xxl.job.core.util.DateUtil;
 import com.xxl.rpc.util.IpUtil;
 import com.xxl.rpc.util.ThrowableUtil;
 import org.slf4j.Logger;
@@ -104,7 +105,8 @@ public class XxlJobTrigger {
         XxlJobLog jobLog = new XxlJobLog();
         jobLog.setJobGroup(jobInfo.getJobGroup());
         jobLog.setJobId(jobInfo.getId());
-        jobLog.setTriggerTime(new Date());
+        jobLog.setTriggerTime(DateUtil.formatDateTime(new Date()));
+        logger.debug("save JobLog:{}",jobLog);
         XxlJobAdminConfig.getAdminConfig().getXxlJobLogDao().save(jobLog);
         logger.debug(">>>>>>>>>>> xxl-job trigger start, jobId:{}", jobLog.getId());
 
@@ -116,7 +118,7 @@ public class XxlJobTrigger {
         triggerParam.setExecutorBlockStrategy(jobInfo.getExecutorBlockStrategy());
         triggerParam.setExecutorTimeout(jobInfo.getExecutorTimeout());
         triggerParam.setLogId(jobLog.getId());
-        triggerParam.setLogDateTim(jobLog.getTriggerTime().getTime());
+        triggerParam.setLogDateTim(DateUtil.parseDateTime(jobLog.getTriggerTime()).getTime());
         triggerParam.setGlueType(jobInfo.getGlueType());
         triggerParam.setGlueSource(jobInfo.getGlueSource());
         triggerParam.setGlueUpdatetime(jobInfo.getGlueUpdatetime().getTime());

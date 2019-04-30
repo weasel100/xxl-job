@@ -8,53 +8,74 @@ import java.util.Date;
  */
 public class XxlJobLog {
 	
-	private int id;
-	
+	private Integer id=0;
+
 	// job info
-	private int jobGroup;
-	private int jobId;
+	private Integer jobGroup=0;
+	private Integer jobId=0;
 
 	// execute info
 	private String executorAddress;
 	private String executorHandler;
 	private String executorParam;
 	private String executorShardingParam;
-	private int executorFailRetryCount;
-	
+	private Integer executorFailRetryCount=0;
+
 	// trigger info
-	private Date triggerTime;
-	private int triggerCode;
+	private String triggerTime;
+	private Integer triggerCode=0;
 	private String triggerMsg;
-	
+
 	// handle info
-	private Date handleTime;
-	private int handleCode;
+	private String handleTime;
+	private Integer handleCode=0;
 	private String handleMsg;
 
 	// alarm info
-	private int alarmStatus;
+	private Integer alarmStatus=0;
 
-	public int getId() {
+	@Override
+	public String toString() {
+		return "XxlJobLog{" +
+				"id=" + id +
+				", jobGroup=" + jobGroup +
+				", jobId=" + jobId +
+				", executorAddress='" + executorAddress + '\'' +
+				", executorHandler='" + executorHandler + '\'' +
+				", executorParam='" + executorParam + '\'' +
+				", executorShardingParam='" + executorShardingParam + '\'' +
+				", executorFailRetryCount=" + executorFailRetryCount +
+				", triggerTime='" + triggerTime + '\'' +
+				", triggerCode=" + triggerCode +
+				", triggerMsg='" + triggerMsg + '\'' +
+				", handleTime='" + handleTime + '\'' +
+				", handleCode=" + handleCode +
+				", handleMsg='" + handleMsg + '\'' +
+				", alarmStatus=" + alarmStatus +
+				'}';
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getJobGroup() {
+	public Integer getJobGroup() {
 		return jobGroup;
 	}
 
-	public void setJobGroup(int jobGroup) {
+	public void setJobGroup(Integer jobGroup) {
 		this.jobGroup = jobGroup;
 	}
 
-	public int getJobId() {
+	public Integer getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(int jobId) {
+	public void setJobId(Integer jobId) {
 		this.jobId = jobId;
 	}
 
@@ -90,27 +111,27 @@ public class XxlJobLog {
 		this.executorShardingParam = executorShardingParam;
 	}
 
-	public int getExecutorFailRetryCount() {
+	public Integer getExecutorFailRetryCount() {
 		return executorFailRetryCount;
 	}
 
-	public void setExecutorFailRetryCount(int executorFailRetryCount) {
+	public void setExecutorFailRetryCount(Integer executorFailRetryCount) {
 		this.executorFailRetryCount = executorFailRetryCount;
 	}
 
-	public Date getTriggerTime() {
+	public String getTriggerTime() {
 		return triggerTime;
 	}
 
-	public void setTriggerTime(Date triggerTime) {
+	public void setTriggerTime(String triggerTime) {
 		this.triggerTime = triggerTime;
 	}
 
-	public int getTriggerCode() {
+	public Integer getTriggerCode() {
 		return triggerCode;
 	}
 
-	public void setTriggerCode(int triggerCode) {
+	public void setTriggerCode(Integer triggerCode) {
 		this.triggerCode = triggerCode;
 	}
 
@@ -122,19 +143,19 @@ public class XxlJobLog {
 		this.triggerMsg = triggerMsg;
 	}
 
-	public Date getHandleTime() {
+	public String getHandleTime() {
 		return handleTime;
 	}
 
-	public void setHandleTime(Date handleTime) {
+	public void setHandleTime(String handleTime) {
 		this.handleTime = handleTime;
 	}
 
-	public int getHandleCode() {
+	public Integer getHandleCode() {
 		return handleCode;
 	}
 
-	public void setHandleCode(int handleCode) {
+	public void setHandleCode(Integer handleCode) {
 		this.handleCode = handleCode;
 	}
 
@@ -146,12 +167,11 @@ public class XxlJobLog {
 		this.handleMsg = handleMsg;
 	}
 
-	public int getAlarmStatus() {
+	public Integer getAlarmStatus() {
 		return alarmStatus;
 	}
 
-	public void setAlarmStatus(int alarmStatus) {
+	public void setAlarmStatus(Integer alarmStatus) {
 		this.alarmStatus = alarmStatus;
 	}
-
 }

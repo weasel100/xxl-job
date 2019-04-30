@@ -1,5 +1,6 @@
 package com.xxl.job.admin.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.xxl.job.admin.core.model.XxlJobGroup;
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.route.ExecutorRouteStrategyEnum;
@@ -122,9 +123,12 @@ public class XxlJobServiceImpl implements XxlJobService {
 			jobInfo.setChildJobId(temp);
 		}
 
+		jobInfo.setId(xxlJobInfoDao.findMaxId());
 		// add in db
-		xxlJobInfoDao.save(jobInfo);
-		if (jobInfo.getId() < 1) {
+		logger.debug("===========save jobInfo:{}",jobInfo);
+		int result=xxlJobInfoDao.save(jobInfo);
+		logger.debug("===========get result:{}",result);
+		if (result <1 && jobInfo.getId() < 1) {
 			return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("jobinfo_field_add")+I18nUtil.getString("system_fail")) );
 		}
 
@@ -351,11 +355,13 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 		List<Map<String, Object>> triggerCountMapAll = xxlJobLogDao.triggerCountByDay(startDate, endDate);
 		if (triggerCountMapAll!=null && triggerCountMapAll.size()>0) {
+
 			for (Map<String, Object> item: triggerCountMapAll) {
-				String day = String.valueOf(item.get("triggerDay"));
-				int triggerDayCount = Integer.valueOf(String.valueOf(item.get("triggerDayCount")));
-				int triggerDayCountRunning = Integer.valueOf(String.valueOf(item.get("triggerDayCountRunning")));
-				int triggerDayCountSuc = Integer.valueOf(String.valueOf(item.get("triggerDayCountSuc")));
+				logger.debug("triggerCountMapAll ITEM:{}",JSON.toJSONString(item));
+				String day = String.valueOf(item.get("TRIGGERDAY"));
+				int triggerDayCount = Integer.valueOf(String.valueOf(item.get("TRIGGERDAYCOUNT")));
+				int triggerDayCountRunning = Integer.valueOf(String.valueOf(item.get("TRIGGERDAYCOUNTRUNNING")));
+				int triggerDayCountSuc = Integer.valueOf(String.valueOf(item.get("TRIGGERDAYCOUNTSUC")));
 				int triggerDayCountFail = triggerDayCount - triggerDayCountRunning - triggerDayCountSuc;
 
 				triggerDayList.add(day);

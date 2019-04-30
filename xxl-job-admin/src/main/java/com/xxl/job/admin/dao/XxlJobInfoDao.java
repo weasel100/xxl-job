@@ -24,7 +24,9 @@ public interface XxlJobInfoDao {
 							 @Param("jobGroup") int jobGroup,
 							 @Param("jobDesc") String jobDesc,
 							 @Param("executorHandler") String executorHandler);
-	
+
+	public int findMaxId();
+
 	public int save(XxlJobInfo info);
 
 	public XxlJobInfo loadById(@Param("id") int id);
