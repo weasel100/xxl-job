@@ -110,7 +110,9 @@
 		FROM JOB_QRTZ_TRIGGER_LOG  t
 		WHERE t.id = #{id}
 	</select>
-
+	<select id="findLogId" resultType="java.lang.Integer" useCache="false" flushCache="true" >
+       select JOB_QRTZ_TRIGGER_LOG_ID.NEXTVAL netval FROM DUAL
+    </select>
 	
 	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobLog"  >
 		INSERT INTO JOB_QRTZ_TRIGGER_LOG (
@@ -121,7 +123,7 @@
 			trigger_code,
 			handle_code
 		) VALUES (
-		    JOB_QRTZ_TRIGGER_LOG_ID.nextval,
+		    ${id},
 			#{jobGroup,jdbcType=INTEGER},
 			#{jobId,jdbcType=INTEGER},
 		    TO_DATE (#{triggerTime,jdbcType=VARCHAR}, 'yyyy-mm-dd HH24:mi:ss'),
@@ -136,7 +138,7 @@
 	<update id="updateTriggerInfo" >
 		UPDATE JOB_QRTZ_TRIGGER_LOG
 		SET
-			trigger_time= #{triggerTime},
+			trigger_time= TO_DATE ( #{triggerTime}, 'yyyy-mm-dd HH24:mi:ss'),
 			trigger_code= #{triggerCode,jdbcType=INTEGER},
 			trigger_msg= #{triggerMsg,jdbcType=VARCHAR},
 			executor_address= #{executorAddress,jdbcType=VARCHAR},

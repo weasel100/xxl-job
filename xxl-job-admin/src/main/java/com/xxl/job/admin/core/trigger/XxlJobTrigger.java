@@ -106,6 +106,7 @@ public class XxlJobTrigger {
         jobLog.setJobGroup(jobInfo.getJobGroup());
         jobLog.setJobId(jobInfo.getId());
         jobLog.setTriggerTime(DateUtil.formatDateTime(new Date()));
+        jobLog.setId(XxlJobAdminConfig.getAdminConfig().getXxlJobLogDao().findLogId());
         logger.debug("save JobLog:{}",jobLog);
         XxlJobAdminConfig.getAdminConfig().getXxlJobLogDao().save(jobLog);
         logger.debug(">>>>>>>>>>> xxl-job trigger start, jobId:{}", jobLog.getId());
@@ -209,5 +210,4 @@ public class XxlJobTrigger {
         runResult.setMsg(runResultSB.toString());
         return runResult;
     }
-
 }

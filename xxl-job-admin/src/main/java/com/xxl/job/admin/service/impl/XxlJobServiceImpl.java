@@ -125,9 +125,10 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 		jobInfo.setId(xxlJobInfoDao.findMaxId());
 		// add in db
-		logger.debug("===========save jobInfo:{}",jobInfo);
+		if(logger.isDebugEnabled()) {
+			logger.debug("save jobInfo:{}",jobInfo);
+		}
 		int result=xxlJobInfoDao.save(jobInfo);
-		logger.debug("===========get result:{}",result);
 		if (result <1 && jobInfo.getId() < 1) {
 			return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("jobinfo_field_add")+I18nUtil.getString("system_fail")) );
 		}
@@ -355,9 +356,10 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 		List<Map<String, Object>> triggerCountMapAll = xxlJobLogDao.triggerCountByDay(startDate, endDate);
 		if (triggerCountMapAll!=null && triggerCountMapAll.size()>0) {
-
+			if(logger.isDebugEnabled()) {
+				logger.debug("triggerCountMapAll:{}",JSON.toJSONString(triggerCountMapAll));
+			}
 			for (Map<String, Object> item: triggerCountMapAll) {
-				logger.debug("triggerCountMapAll ITEM:{}",JSON.toJSONString(item));
 				String day = String.valueOf(item.get("TRIGGERDAY"));
 				int triggerDayCount = Integer.valueOf(String.valueOf(item.get("TRIGGERDAYCOUNT")));
 				int triggerDayCountRunning = Integer.valueOf(String.valueOf(item.get("TRIGGERDAYCOUNTRUNNING")));

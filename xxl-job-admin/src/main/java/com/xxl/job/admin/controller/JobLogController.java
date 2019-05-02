@@ -118,6 +118,7 @@ public class JobLogController {
     public ReturnT<LogResult> logDetailCat(String executorAddress, long triggerTime, int logId, int fromLineNum) {
         try {
             ExecutorBiz executorBiz = XxlJobDynamicScheduler.getExecutorBiz(executorAddress);
+            logger.debug("==============executorAddress:{}triggerTime:{}logId:{}fromLineNum:{}",executorAddress,triggerTime,logId,fromLineNum);
             ReturnT<LogResult> logResult = executorBiz.log(triggerTime, logId, fromLineNum);
 
             // is end

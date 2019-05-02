@@ -42,8 +42,10 @@ public class AdminBizImpl implements AdminBiz {
     public ReturnT<String> callback(List<HandleCallbackParam> callbackParamList) {
         for (HandleCallbackParam handleCallbackParam: callbackParamList) {
             ReturnT<String> callbackResult = callback(handleCallbackParam);
-            logger.debug(">>>>>>>>> JobApiController.callback {}, handleCallbackParam={}, callbackResult={}",
-                    (callbackResult.getCode()==IJobHandler.SUCCESS.getCode()?"success":"fail"), handleCallbackParam, callbackResult);
+            if(logger.isDebugEnabled()) {
+                logger.debug(">>>>>>>>> JobApiController.callback {}, handleCallbackParam={}, callbackResult={}",
+                        (callbackResult.getCode()==IJobHandler.SUCCESS.getCode()?"success":"fail"), handleCallbackParam, callbackResult);
+            }
         }
 
         return ReturnT.SUCCESS;
